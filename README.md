@@ -1,7 +1,7 @@
 # Project Cosmotron - Mars Rover Competition
 ## University of Moratuwa - Team Cosmotron
 
-### 📁 Project Structure
+###  Project Structure
 ```
 finalproject file/
 ├── protos/
@@ -18,7 +18,7 @@ finalproject file/
     └── Military-Fence-Gate/  # Fence textures
 ```
 
-### 🚀 How to Run
+###  How to Run
 1. Open Webots R2025a
 2. Open `worlds/SampleTask.wbt`
 3. Press Play (▶) to start the simulation
