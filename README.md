@@ -29,7 +29,7 @@ finalproject file/
    - Pick up the asteroid
    - Store it onboard
 
-### 🤖 Robot Specifications (GMoraRover)
+###  Robot Specifications (GMoraRover)
 
 #### Dimensions
 - **Size**: Fits within 1.1m × 1.1m × 1.1m cube at start
