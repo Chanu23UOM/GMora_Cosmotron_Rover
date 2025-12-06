@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMora Cosmotron - Mars Rover | University of Moratuwa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff6b35;
+            --secondary: #00d4ff;
+            --accent: #ff2e63;
+            --dark: #0a0a0f;
+            --darker: #050508;
+            --mars-red: #c1440e;
+            --mars-orange: #e77d11;
+            --space-blue: #1a1a2e;
+            --star-white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--darker);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Starfield Background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255,107,53,0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mars-bg {
+            position: absolute;
+            bottom: -200px;
+            right: -100px;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--mars-orange) 0%, var(--mars-red) 50%, #8b3a0e 100%);
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 0%, var(--secondary) 50%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0,212,255,0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255,107,53,0.8)); }
+        }
+
+        .hero h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            box-shadow: 0 10px 40px rgba(255,107,53,0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255,107,53,0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+
+        /* Rover Animation Container */
+        .rover-container {
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+        }
+
+        .rover {
+            position: absolute;
+            bottom: 0;
+            left: -200px;
+            animation: roverMove 25s linear infinite;
+        }
+
+        @keyframes roverMove {
+            0% { left: -200px; }
+            100% { left: 100%; }
+        }
+
+        .rover-body {
+            width: 180px;
+            height: 80px;
+            background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .rover-body::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 100%);
+            border-radius: 5px 5px 0 0;
+        }
+
+        .rover-arm {
+            position: absolute;
+            top: -60px;
+            right: 20px;
+            width: 8px;
+            height: 60px;
+            background: #555;
+            transform-origin: bottom;
+            animation: armMove 4s ease-in-out infinite;
+        }
+
+        .rover-arm::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            width: 28px;
+            height: 25px;
+            background: #444;
+            border-radius: 5px;
+        }
+
+        @keyframes armMove {
+            0%, 100% { transform: rotate(-20deg); }
+            50% { transform: rotate(20deg); }
+        }
+
+        .wheel {
+            position: absolute;
+            bottom: -20px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #333 0%, #111 100%);
+            border-radius: 50%;
+            border: 4px solid #555;
+            animation: wheelRotate 1s linear infinite;
+        }
+
+        .wheel::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background: #666;
+            border-radius: 50%;
+        }
+
+        @keyframes wheelRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .wheel:nth-child(1) { left: 10px; }
+        .wheel:nth-child(2) { left: 50px; }
+        .wheel:nth-child(3) { left: 90px; }
+        .wheel:nth-child(4) { left: 130px; }
+
+        .rover-camera {
+            position: absolute;
+            top: -50px;
+            left: 30px;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, var(--secondary) 0%, #0088aa 100%);
+            border-radius: 50%;
+            animation: cameraBlink 2s ease-in-out infinite;
+            box-shadow: 0 0 20px var(--secondary);
+        }
+
+        @keyframes cameraBlink {
+            0%, 100% { opacity: 1; box-shadow: 0 0 20px var(--secondary); }
+            50% { opacity: 0.5; box-shadow: 0 0 10px var(--secondary); }
+        }
+
+        .mars-surface {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(180deg, var(--mars-red) 0%, #8b3a0e 100%);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--space-blue) 100%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+            box-shadow: 0 20px 50px rgba(0,212,255,0.2);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #888;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 50px;
+            background: var(--dark);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title p {
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(0,212,255,0.05));
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0,212,255,0.3);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+        }
+
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .feature-card p {
+            color: #aaa;
+            line-height: 1.7;
+        }
+
+        /* Specs Section */
+        .specs {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, var(--space-blue) 0%, var(--darker) 100%);
+        }
+
+        .specs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .spec-group {
+            background: rgba(255,255,255,0.03);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .spec-group h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,107,53,0.3);
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: #888;
+        }
+
+        .spec-value {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        /* State Machine Section */
+        .states {
+            padding: 100px 50px;
+            background: var(--dark);
+        }
+
+        .states-flow {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .state-node {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, rgba(255,107,53,0.2), rgba(0,212,255,0.1));
+            border: 2px solid var(--secondary);
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .state-node:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 10px 30px rgba(0,212,255,0.4);
+        }
+
+        .state-node.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,53,0.7); }
+            50% { box-shadow: 0 0 0 15px rgba(255,107,53,0); }
+        }
+
+        /* Team Section */
+        .team {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--space-blue) 100%);
+        }
+
+        .team-info {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .university-badge {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            box-shadow: 0 20px 60px rgba(255,107,53,0.4);
+        }
+
+        .team-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .university-name {
+            font-size: 1.5rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .team-description {
+            font-size: 1.2rem;
+            color: #aaa;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 50px 30px;
+            background: var(--darker);
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        footer p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            color: var(--dark);
+            transform: translateY(-5px);
+        }
+
+        /* Scroll to top */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero h2 {
+                font-size: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats, .features, .specs, .states, .team {
+                padding: 60px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars Background -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">GMORA</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#specs">Specs</a></li>
+            <li><a href="#states">States</a></li>
+            <li><a href="#team">Team</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="mars-bg"></div>
+        <div class="hero-content">
+            <h2>COSMOTRON COMPETITION 2025</h2>
+            <h1>GMora Rover</h1>
+            <p>Autonomous Mars exploration rover designed for AprilTag navigation, obstacle avoidance, and sample retrieval missions.</p>
+            <div class="cta-buttons">
+                <a href="#features" class="btn btn-primary">Explore Features</a>
+                <a href="https://github.com/Chanu23UOM/GMora_Cosmotron_Rover" target="_blank" class="btn btn-secondary">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+
+        <!-- Animated Rover -->
+        <div class="rover-container">
+            <div class="mars-surface"></div>
+            <div class="rover">
+                <div class="rover-body">
+                    <div class="rover-camera"></div>
+                    <div class="rover-arm"></div>
+                </div>
+                <div class="wheel"></div>
+                <div class="wheel"></div>
+                <div class="wheel"></div>
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-cogs"></i></div>
+                <div class="stat-number">6</div>
+                <div class="stat-label">Wheel Drive System</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-robot"></i></div>
+                <div class="stat-number">5</div>
+                <div class="stat-label">DoF Robotic Arm</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-satellite-dish"></i></div>
+                <div class="stat-number">8</div>
+                <div class="stat-label">Onboard Sensors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-microchip"></i></div>
+                <div class="stat-number">15+</div>
+                <div class="stat-label">State Machine States</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-compass"></i></div>
+                <div class="stat-number">360°</div>
+                <div class="stat-label">Initial Scan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-bullseye"></i></div>
+                <div class="stat-number">±2°</div>
+                <div class="stat-label">Turn Accuracy</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-title">
+            <h2>Core Capabilities</h2>
+            <p>Advanced autonomous systems for Mars exploration</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-qrcode"></i></div>
+                <h3>AprilTag Navigation</h3>
+                <p>Uses 25H9 family markers for precise navigation. ID 0 = Stop, ID 1 = Turn Right, ID 2 = Turn Left. Strict model-based detection ensures 99% accuracy.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-radar"></i></div>
+                <h3>360° Initial Scan</h3>
+                <p>Complete rotation scan at mission start to locate flags from any starting orientation. Gyroscope integration tracks rotation with high precision.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>5-Phase Obstacle Avoidance</h3>
+                <p>Smart avoidance with path memory: Backup → Turn Away → Forward → Turn Back → Return. Maintains original heading after obstacle cleared.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-hand-rock"></i></div>
+                <h3>Sample Manipulation</h3>
+                <p>6-phase pickup and 7-phase storage sequences. Dual-finger gripper with 100N force ensures secure sample handling and transport.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+                <h3>Gyro-Integrated Turns</h3>
+                <p>Precise 90° turns using gyroscope integration instead of timed turns. Achieves ±2° accuracy regardless of surface conditions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-eye"></i></div>
+                <h3>Multi-Sensor Fusion</h3>
+                <p>Camera, GPS, Gyro, IMU, Compass, and 5× Distance Sensors provide redundant measurements for reliable autonomous operation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Specs Section -->
+    <section class="specs" id="specs">
+        <div class="section-title">
+            <h2>Technical Specifications</h2>
+            <p>Precision engineering for Mars exploration</p>
+        </div>
+        <div class="specs-container">
+            <div class="spec-group">
+                <h3><i class="fas fa-car"></i> Mobility System</h3>
+                <div class="spec-item">
+                    <span class="spec-label">Drive Type</span>
+                    <span class="spec-value">6-Wheel Differential</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Max Speed</span>
+                    <span class="spec-value">0.6 rad/s</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Suspension</span>
+                    <span class="spec-value">Rocker-Bogie Style</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Wheel Mass</span>
+                    <span class="spec-value">0.4 kg each</span>
+                </div>
+            </div>
+            <div class="spec-group">
+                <h3><i class="fas fa-camera"></i> Sensor Suite</h3>
+                <div class="spec-item">
+                    <span class="spec-label">Camera Resolution</span>
+                    <span class="spec-value">640 × 480</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Field of View</span>
+                    <span class="spec-value">1.0 rad</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Distance Sensors</span>
+                    <span class="spec-value">5 × (0-2m range)</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">IMU</span>
+                    <span class="spec-value">6-axis</span>
+                </div>
+            </div>
+            <div class="spec-group">
+                <h3><i class="fas fa-hand-paper"></i> Robotic Arm</h3>
+                <div class="spec-item">
+                    <span class="spec-label">Degrees of Freedom</span>
+                    <span class="spec-value">5-DoF</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Base Rotation</span>
+                    <span class="spec-value">±170°</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Gripper Force</span>
+                    <span class="spec-value">100 N</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Gripper Travel</span>
+                    <span class="spec-value">0.025 m</span>
+                </div>
+            </div>
+            <div class="spec-group">
+                <h3><i class="fas fa-tachometer-alt"></i> Thresholds</h3>
+                <div class="spec-item">
+                    <span class="spec-label">Obstacle Critical</span>
+                    <span class="spec-value">300</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Obstacle Warning</span>
+                    <span class="spec-value">600</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Flag Proximity</span>
+                    <span class="spec-value">0.6 m</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Time Step</span>
+                    <span class="spec-value">32 ms</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- State Machine Section -->
+    <section class="states" id="states">
+        <div class="section-title">
+            <h2>State Machine Architecture</h2>
+            <p>Finite state machine with 15+ autonomous states</p>
+        </div>
+        <div class="states-flow">
+            <div class="state-node active" data-info="Initialize sensors and calibrate">INIT</div>
+            <div class="state-node" data-info="360° scan to find first flag">INITIAL_SCAN</div>
+            <div class="state-node" data-info="Turn to face detected flag">TURN_TO_FLAG</div>
+            <div class="state-node" data-info="Exit green starting area">EXIT_GREEN</div>
+            <div class="state-node" data-info="Navigate toward flags">MOVE_TO_FLAG</div>
+            <div class="state-node" data-info="Track and approach flags">FOLLOW_FLAG</div>
+            <div class="state-node" data-info="90° turn based on flag ID">EXECUTE_TURN</div>
+            <div class="state-node" data-info="5-phase obstacle avoidance">AVOID_OBSTACLE</div>
+            <div class="state-node" data-info="Recovery scan when flags lost">SEARCH_RECOVER</div>
+            <div class="state-node" data-info="Arrive at Crimson Impact Site">STOP_AT_RED</div>
+            <div class="state-node" data-info="Locate asteroid in white circle">FIND_SAMPLE</div>
+            <div class="state-node" data-info="Move toward asteroid">APPROACH_SAMPLE</div>
+            <div class="state-node" data-info="Fine alignment for pickup">ALIGN_PICKUP</div>
+            <div class="state-node" data-info="6-phase arm pickup sequence">PICKUP</div>
+            <div class="state-node" data-info="7-phase storage sequence">STORE</div>
+            <div class="state-node" data-info="Park and report success">MISSION_COMPLETE</div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team" id="team">
+        <div class="section-title">
+            <h2>The Team</h2>
+            <p>Engineering excellence from Sri Lanka</p>
+        </div>
+        <div class="team-info">
+            <div class="university-badge">UoM</div>
+            <h3 class="team-name">Team G_Mora Cosmotron</h3>
+            <p class="university-name">University of Moratuwa, Sri Lanka</p>
+            <p class="team-description">
+                Our team represents the University of Moratuwa in the Cosmotron Mars Rover Competition 2025. 
+                We've designed and developed a fully autonomous rover capable of AprilTag-based navigation, 
+                intelligent obstacle avoidance, and precise sample retrieval operations. Our rover showcases 
+                the integration of advanced sensor fusion, computer vision, and robotic manipulation systems.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/Chanu23UOM/GMora_Cosmotron_Rover" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p>GMora Cosmotron Rover | Cosmotron Competition 2025</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">
+            Built with 🚀 by Team G_Mora | University of Moratuwa
+        </p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <script>
+        // Generate Stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        createStars();
+
+        // Scroll to Top Button
+        const scrollTop = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // State Node Animation
+        const stateNodes = document.querySelectorAll('.state-node');
+        let currentState = 0;
+
+        function animateStates() {
+            stateNodes.forEach(node => node.classList.remove('active'));
+            stateNodes[currentState].classList.add('active');
+            currentState = (currentState + 1) % stateNodes.length;
+        }
+
+        setInterval(animateStates, 2000);
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Counter Animation
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .stat-card, .spec-group').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Parallax effect for Mars background
+        window.addEventListener('scroll', () => {
+            const mars = document.querySelector('.mars-bg');
+            const scrolled = window.scrollY;
+            if (mars) {
+                mars.style.transform = `translateY(${scrolled * 0.3}px) rotate(${scrolled * 0.02}deg)`;
+            }
+        });
+    </script>
+</body>
+</html>
